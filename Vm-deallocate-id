@@ -1,0 +1,12 @@
+#This is a job in Jenkin to list the resource ids of all VMs that are running in a resource group and then deallocate them using AZ CLI commands
+
+
+# A service principal credential with the required RBAC role for the target Azure subscription is added to Jenkins
+
+#The RESOURCE_GROUP variable is passed as string parameter in the job
+
+RESOURCE_GROUP=Jenkins-DEV-RG
+
+VM_RUNNING=$(az vm list -d -g ${RESOURCE_GROUP} --query "[?powerState=='VM running']".id -o tsv)
+
+az vm deallocate --ids ${VM_RUNNING}
